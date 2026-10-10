@@ -17,21 +17,21 @@ Our project used 3 tables - 'game_teams_stats.csv', 'game.csv' and 'team_info.cs
 ## Database Design
 The Gold layer follows a star schema because this structure supports analytic work. 
 The project compares performance at team-level and thus the fact table grain is one row per team per game.
-
+(Screenshot available: Refer to Screenshots/Semantic Modelling.JPG)
 
 ## Data Quality
-The silver layer inherited timezone-venue inconsistency where several unrelated timezones are associated with 1 venue, e.g Ericsson Globe is associated with 3 timezone ids - America/New_York, America/Los_Angeles, America/Denver 
+The silver layer inherited timezone-venue inconsistency where several unrelated timezones are associated with 1 venue, e.g Ericsson Globe is associated with 3 timezone ids - America/New_York, America/Los_Angeles, America/Denver. (Screenshot available: Refer to timezone-venue_inconsistency.JPG)
 It is unclear if venue or timezone id was the incorrect data, and there was no source to confirm. However, each value is a valid timezone ID, so my teammate preserved the data as-is. 
 As venue is no longer unique, I have used composite key (venue and timezone id), thereby avoiding any bloating of fact table in a join.
 To preserve original data and limit downstream impact, I added surrogate key to represent pairs of venue and timezone info. 
 
 ## My Scope
-This repo shows only my individual contribution to the Gold Layer and does not run standalone as it is only part of a pipeline.
+This repo shows only my individual contribution to the Gold Layer and does not run standalone as it is only part of a pipeline. (Notebook: Refer to Silver to Gold Notebooks/Silver_to_Gold Notebook_final.ipynb)
 The Fabric workspace was a trial account that is not publicly accessible, so the transformation code is exported as a notebook.
 
 **Silver to Gold transformation**  
-- Created of 1 fact table with grain at one row per team per game with opponent's stats alongside. 
-- Created of 4 dimension tables - season, venue, date and team info
+- Created 1 fact table with grain at one row per team per game with opponent's stats alongside. (Refer to Screenshots/Silver Lake - *)
+- Created 4 dimension tables - season, venue, date and team info (Refer to Screenshots/Gold Lake - *)
 - Gold Delta tables are built with SparkSQL
 - Validated and logged result with PySpark to prepare for semantic modelling: 
 	- Table existence, 
@@ -40,7 +40,7 @@ The Fabric workspace was a trial account that is not publicly accessible, so the
 
 **Power BI Report Page**
 Contributed 1 report page to existing 5 reports.
-My 1-page report provides a dashboard layout to let users compare a selected team's perfromance at home versus away in 3 areas:
+My 1-page report(Refer to Screenshots/NHL_report dashboard_layout.JPG) provides a dashboard layout to let users compare a selected team's perfromance at home versus away in 3 areas:
 -Shoot / Goal Efficiency
 -Puck Possession
 -Penalty
